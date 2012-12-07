@@ -1,0 +1,90 @@
+#include <stdlib.h>
+#include <vector>
+#include <list>
+#include<string.h>
+#include<stdio.h>
+#include<iostream>
+#include"Buffer.h"
+#include"Mixblock.h"
+using namespace std;
+#define INDEXT 3;
+class Index
+{
+    public:
+
+	   vector<int> pointset;   
+	   int ind_debug;          // 0 means off, while 1 means on
+	   int ind_root_loc;       // Point to the location of root node, which is also the last block
+           vector<Mixblock> mxb;
+           Header head;
+
+// for Quary: create index <indexname> on <tablename>(<attriname>) [No duplicates]  
+       void ind_create(char* indname, char* tablename, char* attributename,int checkd, Catalog* cata,Buffer* buff); 
+	   
+// for Quary: set index debug [on/off]
+	   void ind_set_debug(int de);  //de=0 means off,1 means on
+
+// for Quary: insert into <tablename> values (<number>)
+       int ind_q_insert(char* tablename, char* indexname, int key, int ptr, Catalog* cata);      //key is the value of the VIP attribute,  
+
+// for Quary: print index <indexname> of table <tablename>
+       void ind_q_print(char* indexname, char* tablename);
+
+// for Quary: select_equal()
+       vector<int> ind_select_equal(int tablenumber, int attnumber, int key);
+// for Quary: select_greater()
+       vector<int> ind_select_greater(int tablenumber, int attnumber, int key);
+// for Quary: select_smaller()
+       vector<int> ind_select_smaller(int tablenumber, int attnumber, int key);
+       vector<int> ind_select_greaterequal(int tablenumber, int attnumber, int key);
+       vector<int> ind_select_smallerequal(int tablenumber, int attnumber, int key);
+	   vector<int> ind_select_notequal(int tablenumber, int attnumber, int key);
+
+        
+       void ind_drop(char* indexname,char* tablename, Catalog* cata);
+
+       int ind_pretest(char* indexname,int key, Catalog* cc);
+
+
+	       Mixblock ind_getblock(int offset, char* fname);
+	       void ind_putblock(Mixblock mm, int offset, char* fname);
+           vector<int> ind_lookup(int key);
+           int ind_insert(int key, int value);
+           void ind_printnode(int offset,string space);
+    	   void ind_print(char* indname);
+           void ind_ini(Catalog* cc, Buffer* b);
+
+
+
+	private:
+
+	   Catalog* catalog; 
+	   Buffer* buffer;
+       Node tempnode;
+	   Bucket tempb;
+	   Mixblock tempmx;
+
+	   int ind_index_unique(char* indname);
+	   void ind_ta_att_exist(char* tablename, char* attributename);
+	   int ind_check_indnum(int tableno, int attrno);
+	   void ind_create_indisk(char* fname);
+
+           int ind_find_value(int key, int value);
+
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,13 @@
+Project2
+
+Group:
+Dao Chen   A20260911
+Cheng Cao	A20260046
+
+
+To build:  make
+
+
+To run: ./dbms x 
+where x is the buffer size.
+NOTE:  WILL DEFAULT TO 3
